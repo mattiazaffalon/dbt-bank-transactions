@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: dbt_bank_transactions
+    tables:
+      - name: exports       
+        external:
+          location: "gs://bank-exports-dev/*.tsv"
+          options:
+            format: "CSV"
+            skip_leading_rows: 1
+            field_delimiter: "\t"
+        columns:
+          - name: data_contabile
+            data_type: string
+          - name: data_valuta
+            data_type: string
+          - name: importo
+            data_type: string
+          - name: descrizione
+            data_type: string
