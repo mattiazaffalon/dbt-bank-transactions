@@ -10,6 +10,11 @@ pip install -r requirements.txt
 from this directory
 ```bash
 dbt deps
-dbt test
-dbt run
+```
+Running the project
+```bash
+dbt run-operation stage_external_sources && \
+    dbt seed && \ 
+    dbt run && \
+    dbt test
 ```

@@ -3,7 +3,7 @@
 with 
 
 raw as (
-    SELECT e.*, _file_name as report_file_name FROM {{ source('dbt_bank_transactions', 'exports') }} e
+    SELECT e.*, _file_name as report_file_name FROM {{ source('account_statements', 'exports') }} e
 ),
 
 parsed as (

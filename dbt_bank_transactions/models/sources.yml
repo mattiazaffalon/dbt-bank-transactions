@@ -1,11 +1,11 @@
 version: 2
 
 sources:
-  - name: dbt_bank_transactions
+  - name: account_statements
     tables:
       - name: exports       
         external:
-          location: "gs://bank-exports-dev/*.tsv"
+          location: "gs://bank-exports-prod/*.tsv"
           options:
             format: "CSV"
             skip_leading_rows: 1

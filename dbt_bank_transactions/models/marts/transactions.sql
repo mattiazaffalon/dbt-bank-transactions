@@ -4,8 +4,13 @@ with
 
 basic_transactions as (
 
-   select * from {{ ref('int_all_transactions_to_basic_transactions') }}
+   select b.*, row_number() over () as id from {{ ref('int_all_transactions_to_basic_transactions') }} b
 
+),
+
+categories as (
+
+  select pattern, category from {{ ref('transaction_categories') }}
 )
 
 select
@@ -15,12 +20,10 @@ select
   description,
   if (value > 0, 'I', 'O') as direction,
   abs(value) as amount,
-  case
-    when value > 0 and (lower(description) like '%sottoscrizione fondi comuni%' or lower(description) like '%investiper%' or lower(description) like '% nef %' or lower(description) like '%risparmio e previden%' or lower(description) like '%investiper%') then 'Rimborso fondi'
-    when value > 0 then 'Ingressi'
-    when value < 0 and (lower(description) like '%sottoscrizione fondi comuni%' or lower(description) like '%investiper%' or lower(description) like '% nef %' or lower(description) like '%risparmio e previden%' or lower(description) like '%investiper%') then 'Investimenti'
-    when value < 0 then 'Uscite'
-  end as broad_classification,
+  case 
+    when category is null then 'Senza categoria'
+    else category
+  end as category,
   case
     when abs(value) < 2 then '1-xxs'
     when abs(value) < 5 then '2-xs'
@@ -65,4 +68,5 @@ select
     '-',
     lpad(cast(extract(month from value_date) as string), 2, '0')
   ) as value_month_id,
-from basic_transactions
+from basic_transactions t left join categories c on REGEXP_CONTAINS(lower(t.description), c.pattern)
+qualify row_number() over (partition by id) = 1
