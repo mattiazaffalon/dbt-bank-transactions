@@ -11,7 +11,8 @@ from this directory
 ```bash
 dbt deps
 ```
-Running the project
+
+## Running the models
 ```bash
 dbt run-operation stage_external_sources && \
     dbt seed && \ 

@@ -13,7 +13,4 @@ Export file from Internet Banking and call it "export-yyyyMMdd.tsv", dove la dat
 
 Collocare il file in `gs://bank-exports-prod/`
 
-Eseguire il comando:
-```bash
-dbt seed && dbt run
-```
+Eseguire la sequenza di comandi descritti in [nella sezione running-dbt-models](./dbt_bank_transactions/README.md#running-the-models),
