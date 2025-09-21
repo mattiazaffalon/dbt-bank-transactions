@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='view') }}
 
 with 
 
@@ -37,6 +37,7 @@ select
   extract(year from accounting_date) as accounting_year,
   extract(month from accounting_date) as accounting_month,
   extract(day from accounting_date) as accounting_monthday,
+  extract(day from current_date) as accounting_today,
   case extract(DAYOFWEEK from accounting_date)
     when 1 then 'domenica'
     when 2 then 'lunedi'
